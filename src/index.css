@@ -1951,6 +1951,50 @@ body {
     padding: 10px 20px;
     font-size: 14px;
   }
+  
+  /* Mobile-specific optimizations */
+  .hero-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.125rem;
+  }
+  
+  .section-title {
+    font-size: 1.875rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1.125rem;
+  }
+  
+  /* Touch targets */
+  button, 
+  input, 
+  textarea,
+  .nav-link {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Form improvements */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Spacing adjustments */
+  .space-y-8 > * + * {
+    margin-top: 1.5rem;
+  }
+  
+  .space-y-6 > * + * {
+    margin-top: 1rem;
+  }
 }
 
 /* Dark mode enhancements */

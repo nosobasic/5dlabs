@@ -21,7 +21,8 @@ const Navbar = () => {
     { name: 'Studio', path: '/studio' },
     { name: 'Services', path: '/services' },
     { name: 'Portfolio', path: '/portfolio' },
-    { name: 'Contact', path: '/contact' }
+    { name: 'Contact', path: '/contact' },
+    { name: 'Free Beats', path: '/beat-pack', highlight: true }
   ]
 
   return (
@@ -53,10 +54,12 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`nav-link ${location.pathname === item.path ? 'nav-link-active' : ''}`}
+                className={`nav-link ${location.pathname === item.path ? 'nav-link-active' : ''} ${
+                  item.highlight ? 'bg-gradient-to-r from-purple-500 to-pink-500 px-3 py-1 rounded-full text-white hover:shadow-lg hover:shadow-purple-500/25 transition-all' : ''
+                }`}
               >
                 {item.name}
-                {location.pathname === item.path && (
+                {location.pathname === item.path && !item.highlight && (
                   <motion.div
                     layoutId="activeTab"
                     className="nav-link-indicator"
