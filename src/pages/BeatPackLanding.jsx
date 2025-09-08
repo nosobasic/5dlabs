@@ -86,7 +86,7 @@ const BeatPackLanding = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
-      <section className="relative pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 overflow-hidden">
+      <section className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 px-4 overflow-hidden">
         {/* Background Effects */}
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-black to-pink-900/30"></div>
         
@@ -254,7 +254,7 @@ const BeatPackLanding = () => {
                       placeholder="Email Address *"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3 bg-gray-800 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors ${
+                      className={`w-full px-6 py-4 text-lg bg-gray-800 border rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors ${
                         errors.email ? 'border-red-500' : 'border-gray-600'
                       }`}
                     />
@@ -270,7 +270,7 @@ const BeatPackLanding = () => {
                       placeholder="Phone Number (Optional)"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className={`w-full px-4 py-3 bg-gray-800 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors ${
+                      className={`w-full px-6 py-4 text-lg bg-gray-800 border rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors ${
                         errors.phone ? 'border-red-500' : 'border-gray-600'
                       }`}
                     />

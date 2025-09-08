@@ -1984,7 +1984,7 @@ body {
   input[type="email"],
   input[type="tel"],
   textarea {
-    font-size: 16px; /* Prevents zoom on iOS */
+    font-size: 18px; /* Prevents zoom on iOS while maintaining design consistency */
   }
   
   /* Spacing adjustments */
