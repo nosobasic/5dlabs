@@ -86,7 +86,7 @@ const BeatPackLanding = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Hero Section */}
-      <section className="relative pt-16 sm:pt-20 pb-12 sm:pb-16 px-4 overflow-hidden">
+      <section className="relative pt-20 sm:pt-24 pb-12 sm:pb-16 px-4 overflow-hidden">
         {/* Background Effects */}
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-black to-pink-900/30"></div>
         
@@ -137,13 +137,13 @@ const BeatPackLanding = () => {
                 transition={{ delay: 0.1 }}
                 className="space-y-4"
               >
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
                   Get Your FREE
                   <span className="block gradient-text">
                     Premium Beat Pack
                   </span>
                 </h1>
-                <p className="text-lg sm:text-xl text-gray-300 max-w-xl leading-relaxed">
+                <p className="text-xl sm:text-2xl text-gray-300 max-w-2xl leading-relaxed">
                   10 exclusive, royalty-free beats produced in our professional studio. 
                   Perfect for artists, content creators, and music producers.
                 </p>
@@ -186,13 +186,13 @@ const BeatPackLanding = () => {
                       </div>
                     ))}
                   </div>
-                  <span className="text-sm text-gray-400">2,847+ downloads</span>
+                  <span className="text-sm sm:text-base text-gray-400">2,847+ downloads</span>
                 </div>
                 <div className="flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} size={16} className="text-yellow-400 fill-current" />
+                    <Star key={i} size={16} className="text-yellow-400 fill-yellow-400" />
                   ))}
-                  <span className="text-sm text-gray-400 ml-2">4.9/5 rating</span>
+                  <span className="text-sm sm:text-base text-gray-400 ml-2">4.9/5 rating</span>
                 </div>
               </motion.div>
             </div>
@@ -209,8 +209,8 @@ const BeatPackLanding = () => {
                   <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Gift size={32} className="text-white" />
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold mb-2">Claim Your Free Beats</h3>
-                  <p className="text-gray-400">Enter your details to get instant access</p>
+                  <h3 className="text-2xl sm:text-3xl font-bold mb-2">Claim Your Free Beats</h3>
+                  <p className="text-lg text-gray-400">Enter your details to get instant access</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -222,7 +222,7 @@ const BeatPackLanding = () => {
                         placeholder="First Name *"
                         value={formData.firstName}
                         onChange={handleInputChange}
-                        className={`w-full px-4 py-3 bg-gray-800 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors ${
+                        className={`w-full px-6 py-4 text-lg bg-gray-800 border rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors ${
                           errors.firstName ? 'border-red-500' : 'border-gray-600'
                         }`}
                       />
@@ -237,7 +237,7 @@ const BeatPackLanding = () => {
                         placeholder="Last Name *"
                         value={formData.lastName}
                         onChange={handleInputChange}
-                        className={`w-full px-4 py-3 bg-gray-800 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors ${
+                        className={`w-full px-6 py-4 text-lg bg-gray-800 border rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors ${
                           errors.lastName ? 'border-red-500' : 'border-gray-600'
                         }`}
                       />
@@ -284,7 +284,7 @@ const BeatPackLanding = () => {
                     disabled={isSubmitting}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-3 sm:py-4 rounded-lg font-bold text-base sm:text-lg flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-purple-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-4 sm:py-5 rounded-xl font-bold text-lg sm:text-xl flex items-center justify-center gap-3 hover:shadow-lg hover:shadow-purple-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? (
                       <div className="loading-dots">Getting Your Beats</div>
@@ -400,7 +400,7 @@ const BeatPackLanding = () => {
               >
                 <div className="flex items-center gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} size={16} className="text-yellow-400 fill-current" />
+                    <Star key={i} size={16} className="text-yellow-400 fill-yellow-400" />
                   ))}
                 </div>
                 <p className="text-gray-300 mb-4 italic">"{testimonial.text}"</p>
@@ -433,7 +433,7 @@ const BeatPackLanding = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => document.querySelector('form').scrollIntoView({ behavior: 'smooth' })}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-4 rounded-lg font-bold text-lg flex items-center gap-2 mx-auto hover:shadow-lg hover:shadow-purple-500/25 transition-all"
+              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-10 py-5 rounded-xl font-bold text-xl flex items-center gap-3 mx-auto hover:shadow-lg hover:shadow-purple-500/25 transition-all"
             >
               <Headphones size={20} />
               Claim Your Free Beats Now
