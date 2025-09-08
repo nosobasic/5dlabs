@@ -6,7 +6,7 @@
  */
 
 // Google Apps Script Web App URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwCFb2iv5yt1R85MvSzroKVbMGac1ZaPK_V3qVLLhHUxXERwwS8a5bSUG8x6plmBzxL/exec'
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxyHBJqWjr4NEPpCs_vAlnsKiUOakOoQtt5aQPcx6dYvnwt6liI11Jw0O0wquK7g9s0dA/exec'
 
 /**
  * Submit form data to Google Sheets
