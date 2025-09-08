@@ -37,10 +37,9 @@ const ThankYou = () => {
     setDownloadStarted(true)
     
     // Create download link for the beat pack
-    // Make sure to add your actual beat pack ZIP file to the /public folder
     const link = document.createElement('a')
-    link.href = '/5d-labs-premium-beat-pack.zip' // Your beat pack file in /public folder
-    link.download = '5D-Labs-Premium-Beat-Pack.zip'
+    link.href = '/FREE BEAT PACK.zip' // Your beat pack file in /public folder
+    link.download = '5D-Labs-FREE-Beat-Pack.zip'
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
@@ -142,7 +141,7 @@ const ThankYou = () => {
             >
               <Download size={24} />
               {downloadStarted ? 'Download Again' : 'Download Beat Pack'}
-              <span className="text-sm opacity-75">(ZIP • 45MB)</span>
+              <span className="text-sm opacity-75">(ZIP • 58MB)</span>
             </motion.button>
 
             {/* Download Details */}
