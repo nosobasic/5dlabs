@@ -179,13 +179,6 @@ const BeatPackLanding = () => {
                 className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 pt-4"
               >
                 <div className="flex items-center gap-2">
-                  <div className="flex -space-x-2">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div key={i} className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full border-2 border-black flex items-center justify-center text-xs font-bold">
-                        {i}
-                      </div>
-                    ))}
-                  </div>
                   <span className="text-sm sm:text-base text-gray-400">2,847+ downloads</span>
                 </div>
                 <div className="flex items-center gap-1">
@@ -430,16 +423,18 @@ const BeatPackLanding = () => {
               Join thousands of creators who have already downloaded our beats. 
               Get yours now before this limited-time offer ends.
             </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => document.querySelector('form').scrollIntoView({ behavior: 'smooth' })}
-              className="text-white px-10 py-5 rounded-xl font-bold text-xl flex items-center gap-3 mx-auto hover:shadow-lg hover:shadow-violet-500/25 transition-all"
-              style={{ background: 'linear-gradient(135deg, #8b5cf6, #ec4899, #f97316)' }}
-            >
-              <Headphones size={20} />
-              Claim Your Free Beats Now
-            </motion.button>
+            <div className="flex justify-center">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => document.querySelector('form').scrollIntoView({ behavior: 'smooth' })}
+                className="text-white px-10 py-5 rounded-xl font-bold text-xl flex items-center gap-3 hover:shadow-lg hover:shadow-violet-500/25 transition-all"
+                style={{ background: 'linear-gradient(135deg, #8b5cf6, #ec4899, #f97316)' }}
+              >
+                <Headphones size={20} />
+                Claim Your Free Beats Now
+              </motion.button>
+            </div>
           </motion.div>
         </div>
       </section>
