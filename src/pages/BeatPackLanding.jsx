@@ -284,7 +284,7 @@ const BeatPackLanding = () => {
                     disabled={isSubmitting}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-4 sm:py-5 rounded-xl font-bold text-lg sm:text-xl flex items-center justify-center gap-3 hover:shadow-lg hover:shadow-purple-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-gradient-to-r from-violet-500 via-pink-500 to-orange-500 text-white py-4 sm:py-5 rounded-xl font-bold text-lg sm:text-xl flex items-center justify-center gap-3 hover:shadow-lg hover:shadow-violet-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? (
                       <div className="loading-dots">Getting Your Beats</div>
@@ -433,7 +433,7 @@ const BeatPackLanding = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => document.querySelector('form').scrollIntoView({ behavior: 'smooth' })}
-              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-10 py-5 rounded-xl font-bold text-xl flex items-center gap-3 mx-auto hover:shadow-lg hover:shadow-purple-500/25 transition-all"
+              className="bg-gradient-to-r from-violet-500 via-pink-500 to-orange-500 text-white px-10 py-5 rounded-xl font-bold text-xl flex items-center gap-3 mx-auto hover:shadow-lg hover:shadow-violet-500/25 transition-all"
             >
               <Headphones size={20} />
               Claim Your Free Beats Now
