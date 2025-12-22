@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Menu, X, Instagram, Youtube, Twitch } from 'lucide-react'
+import { useUser, SignInButton, SignOutButton, UserButton } from '@clerk/clerk-react'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
+  const { isSignedIn } = useUser()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,6 +102,25 @@ const Navbar = () => {
             </motion.a>
           </div>
 
+          {/* Auth Buttons */}
+          <div className="navbar-auth desktop-nav">
+            {isSignedIn ? (
+              <div className="auth-buttons">
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            ) : (
+              <SignInButton mode="modal">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="sign-in-button"
+                >
+                  Sign In
+                </motion.button>
+              </SignInButton>
+            )}
+          </div>
+
           {/* Mobile menu button */}
           <div className="mobile-menu-button">
             <button
@@ -140,6 +161,24 @@ const Navbar = () => {
                 <a href="https://twitch.tv" className="mobile-social-link twitch">
                   <Twitch size={20} />
                 </a>
+              </div>
+              <div className="mobile-auth">
+                {isSignedIn ? (
+                  <div className="mobile-auth-buttons">
+                    <UserButton afterSignOutUrl="/" />
+                    <SignOutButton>
+                      <button className="mobile-sign-out-button" onClick={() => setIsOpen(false)}>
+                        Sign Out
+                      </button>
+                    </SignOutButton>
+                  </div>
+                ) : (
+                  <SignInButton mode="modal">
+                    <button className="mobile-sign-in-button" onClick={() => setIsOpen(false)}>
+                      Sign In
+                    </button>
+                  </SignInButton>
+                )}
               </div>
             </div>
           </motion.div>
