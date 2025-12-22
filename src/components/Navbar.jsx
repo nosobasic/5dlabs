@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Menu, X, Instagram, Youtube, Twitch } from 'lucide-react'
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -22,7 +21,8 @@ const Navbar = () => {
     { name: 'Studio', path: '/studio' },
     { name: 'Services', path: '/services' },
     { name: 'Portfolio', path: '/portfolio' },
-    { name: 'Contact', path: '/contact' }
+    { name: 'Contact', path: '/contact' },
+    { name: 'Free Beats', path: '/beat-pack', highlight: true }
   ]
 
   return (
@@ -54,10 +54,12 @@ const Navbar = () => {
               <Link
                 key={item.name}
                 to={item.path}
-                className={`nav-link ${location.pathname === item.path ? 'nav-link-active' : ''}`}
+                className={`nav-link ${location.pathname === item.path ? 'nav-link-active' : ''} ${
+                  item.highlight ? 'bg-gradient-to-r from-purple-500 to-pink-500 px-3 py-1 rounded-full text-white hover:shadow-lg hover:shadow-purple-500/25 transition-all' : ''
+                }`}
               >
                 {item.name}
-                {location.pathname === item.path && (
+                {location.pathname === item.path && !item.highlight && (
                   <motion.div
                     layoutId="activeTab"
                     className="nav-link-indicator"
@@ -96,20 +98,6 @@ const Navbar = () => {
             >
               <Twitch size={20} />
             </motion.a>
-            {/* Authentication */}
-            <SignedOut>
-              <SignInButton mode="modal">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  className="auth-button sign-in-button"
-                >
-                  Sign In
-                </motion.button>
-              </SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton afterSignOutUrl="/" />
-            </SignedIn>
           </div>
 
           {/* Mobile menu button */}
@@ -142,22 +130,6 @@ const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
-              {/* Mobile Authentication */}
-              <SignedOut>
-                <SignInButton mode="modal">
-                  <button
-                    onClick={() => setIsOpen(false)}
-                    className="mobile-nav-link auth-button"
-                  >
-                    Sign In
-                  </button>
-                </SignInButton>
-              </SignedOut>
-              <SignedIn>
-                <div className="mobile-auth-user-button">
-                  <UserButton afterSignOutUrl="/" />
-                </div>
-              </SignedIn>
               <div className="mobile-social-links">
                 <a href="https://instagram.com" className="mobile-social-link instagram">
                   <Instagram size={20} />

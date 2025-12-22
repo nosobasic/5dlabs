@@ -1951,6 +1951,50 @@ body {
     padding: 10px 20px;
     font-size: 14px;
   }
+  
+  /* Mobile-specific optimizations */
+  .hero-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.125rem;
+  }
+  
+  .section-title {
+    font-size: 1.875rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1.125rem;
+  }
+  
+  /* Touch targets */
+  button, 
+  input, 
+  textarea,
+  .nav-link {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Form improvements */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  textarea {
+    font-size: 18px; /* Prevents zoom on iOS while maintaining design consistency */
+  }
+  
+  /* Spacing adjustments */
+  .space-y-8 > * + * {
+    margin-top: 1.5rem;
+  }
+  
+  .space-y-6 > * + * {
+    margin-top: 1rem;
+  }
 }
 
 /* Dark mode enhancements */
@@ -2072,37 +2116,6 @@ body {
 
 .social-link.twitch:hover {
   color: #a855f7;
-}
-
-/* Authentication Buttons */
-.auth-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.sign-in-button {
-  color: #d1d5db;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  border: 1px solid rgba(139, 92, 246, 0.3);
-}
-
-.sign-in-button:hover {
-  color: white;
-  background: rgba(139, 92, 246, 0.1);
-  border-color: rgba(139, 92, 246, 0.5);
-}
-
-.mobile-auth-user-button {
-  padding: 0.75rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .mobile-menu-button {
