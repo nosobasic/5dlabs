@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Menu, X, Instagram, Youtube, Twitch } from 'lucide-react'
+import { Menu, X, Instagram, Youtube, Twitch, Settings } from 'lucide-react'
 import { useUser, SignInButton, SignOutButton, UserButton } from '@clerk/clerk-react'
+import { useIsAdmin } from '../utils/adminAuth'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
   const { isSignedIn } = useUser()
+  const isAdmin = useIsAdmin()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,7 +26,8 @@ const Navbar = () => {
     { name: 'Services', path: '/services' },
     { name: 'Portfolio', path: '/portfolio' },
     { name: 'Contact', path: '/contact' },
-    { name: 'Free Beats', path: '/beat-pack', highlight: true }
+    { name: 'Free Beats', path: '/beat-pack', highlight: true },
+    ...(isAdmin ? [{ name: 'Admin', path: '/admin', admin: true }] : [])
   ]
 
   return (

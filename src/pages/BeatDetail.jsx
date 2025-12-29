@@ -17,7 +17,7 @@ const licenseTiers = [
       'MP3 format',
       'Great for demos',
     ],
-    paymentLink: null, // To be configured later
+    paymentLink: 'https://buy.stripe.com/5kQaEX4yp5511w39NQgA800',
   },
   {
     name: 'Premium Lease',
@@ -29,7 +29,7 @@ const licenseTiers = [
       'WAV format',
       'Higher quality',
     ],
-    paymentLink: null, // To be configured later
+    paymentLink: 'https://buy.stripe.com/dRm14n6Gx40XgqX9NQgA801',
   },
   {
     name: 'Unlimited Lease',
@@ -41,7 +41,7 @@ const licenseTiers = [
       'WAV + Stems',
       'Professional mixing',
     ],
-    paymentLink: null, // To be configured later
+    paymentLink: 'https://buy.stripe.com/9B6cN56Gxbtp7Urd02gA802',
   },
   {
     name: 'Exclusive License',
@@ -53,7 +53,7 @@ const licenseTiers = [
       'Publishing rights',
       'Beat removed from market',
     ],
-    paymentLink: null, // To be configured later
+    paymentLink: 'https://buy.stripe.com/6oUdR92qhbtp3Ebd02gA803',
   },
 ]
 
@@ -84,8 +84,11 @@ const BeatDetail = () => {
   }, [beatId])
 
   const handleCheckout = async (tier, beatId) => {
-    // This will be implemented when Stripe payment links are configured
-    // For now, just navigate to the payment link if available
+    // Navigate to Stripe payment link
+    // Note: For the webhook to work correctly, each Payment Link in Stripe Dashboard
+    // should be configured with metadata: beat_id and license_type
+    // Since Payment Links are static, you may need to configure default metadata
+    // or use Stripe API to create dynamic checkout sessions
     if (tier.paymentLink) {
       window.location.href = tier.paymentLink
     }

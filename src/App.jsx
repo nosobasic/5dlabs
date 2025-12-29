@@ -10,6 +10,13 @@ import BeatPackLanding from './pages/BeatPackLanding'
 import ThankYou from './pages/ThankYou'
 import BeatStore from './pages/BeatStore'
 import BeatDetail from './pages/BeatDetail'
+import Admin from './pages/Admin'
+import Beats from './pages/admin/Beats'
+import BeatForm from './pages/admin/BeatForm'
+import Orders from './pages/admin/Orders'
+import OrderDetail from './pages/admin/OrderDetail'
+import Licenses from './pages/admin/Licenses'
+import Webhooks from './pages/admin/Webhooks'
 import './App.css'
 
 function App() {
@@ -27,6 +34,14 @@ function App() {
           <Route path="/thank-you" element={<ThankYou />} />
           <Route path="/store" element={<BeatStore />} />
           <Route path="/store/:beatId" element={<BeatDetail />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/beats" element={<Beats />} />
+          <Route path="/admin/beats/new" element={<BeatForm />} />
+          <Route path="/admin/beats/:id/edit" element={<BeatForm />} />
+          <Route path="/admin/orders" element={<Orders />} />
+          <Route path="/admin/orders/:id" element={<OrderDetail />} />
+          <Route path="/admin/licenses" element={<Licenses />} />
+          <Route path="/admin/webhooks" element={<Webhooks />} />
         </Routes>
       </div>
     </Router>
