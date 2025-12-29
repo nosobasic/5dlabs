@@ -8,6 +8,8 @@ import Portfolio from './pages/Portfolio'
 import Contact from './pages/Contact'
 import BeatPackLanding from './pages/BeatPackLanding'
 import ThankYou from './pages/ThankYou'
+import BeatStore from './pages/BeatStore'
+import BeatDetail from './pages/BeatDetail'
 import './App.css'
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/beat-pack" element={<BeatPackLanding />} />
           <Route path="/thank-you" element={<ThankYou />} />
+          <Route path="/store" element={<BeatStore />} />
+          <Route path="/store/:beatId" element={<BeatDetail />} />
         </Routes>
       </div>
     </Router>

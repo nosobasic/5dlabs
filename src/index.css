@@ -2274,3 +2274,692 @@ body {
     display: none !important;
   }
 }
+
+/* Beat Store Styles */
+
+/* Audio Preview Component */
+.audio-preview {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.audio-play-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.audio-play-button:hover {
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+  transform: scale(1.1);
+}
+
+.audio-progress-container {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.audio-progress-bar {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.audio-progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  border-radius: 2px;
+}
+
+/* Beat Card Component */
+.beat-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.beat-card:hover {
+  border-color: rgba(168, 85, 247, 0.5);
+  box-shadow: 0 8px 24px rgba(168, 85, 247, 0.2);
+}
+
+.beat-card-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.beat-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.beat-card-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+}
+
+.beat-card-overlay {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.beat-card:hover .beat-card-overlay {
+  opacity: 1;
+}
+
+.beat-card-content {
+  padding: 1rem;
+}
+
+.beat-card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.beat-card-meta {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.beat-meta-item {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 0.25rem 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0.25rem;
+}
+
+/* Featured Carousel */
+.featured-carousel {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  overflow: hidden;
+  margin-bottom: 4rem;
+}
+
+.featured-carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.featured-carousel-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.featured-carousel-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+.featured-carousel-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.featured-carousel-info {
+  text-align: center;
+  max-width: 800px;
+}
+
+.featured-carousel-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.featured-carousel-meta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.featured-meta-item {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  backdrop-filter: blur(10px);
+}
+
+.featured-carousel-preview {
+  display: flex;
+  justify-content: center;
+}
+
+.featured-carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.featured-carousel-nav:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.featured-carousel-nav-prev {
+  left: 2rem;
+}
+
+.featured-carousel-nav-next {
+  right: 2rem;
+}
+
+.featured-carousel-dots {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.75rem;
+  z-index: 10;
+}
+
+.featured-carousel-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.featured-carousel-dot.active {
+  background: white;
+  width: 32px;
+  border-radius: 6px;
+}
+
+.featured-carousel-dot:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* Beat Store Page */
+.beat-store {
+  min-height: 100vh;
+  padding-top: 2rem;
+}
+
+.beat-store-featured {
+  margin-bottom: 4rem;
+}
+
+.beat-store-list {
+  padding: 2rem 0;
+}
+
+.beat-store-section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.beat-store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.beat-store-loading,
+.beat-store-error,
+.beat-store-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #a855f7;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Beat Detail Page */
+.beat-detail {
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.beat-detail-back {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  transition: all 0.3s ease;
+}
+
+.beat-detail-back:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(168, 85, 247, 0.5);
+}
+
+.beat-detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.beat-detail-info {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.beat-detail-image {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.beat-detail-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.beat-detail-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  font-weight: bold;
+  color: white;
+}
+
+.beat-detail-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.beat-detail-title {
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.beat-detail-meta {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.beat-detail-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.meta-label {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.meta-value {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+}
+
+.beat-detail-preview {
+  margin-top: 1rem;
+}
+
+.preview-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.beat-detail-licenses {
+  margin-top: 2rem;
+}
+
+.licenses-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.licenses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+/* License Tier Card */
+.license-tier-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.license-tier-card:hover {
+  border-color: rgba(168, 85, 247, 0.5);
+  box-shadow: 0 8px 24px rgba(168, 85, 247, 0.2);
+}
+
+.license-tier-card.exclusive {
+  border: 2px solid #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+}
+
+.license-tier-badge {
+  position: absolute;
+  top: -12px;
+  right: 1rem;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #000;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.license-tier-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.license-tier-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+}
+
+.license-tier-format {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.license-tier-price {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #c084fc;
+}
+
+.license-tier-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.license-tier-feature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.875rem;
+}
+
+.license-tier-feature svg {
+  color: #10b981;
+  flex-shrink: 0;
+}
+
+.license-tier-button {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  color: white;
+}
+
+.license-tier-button:hover:not(.disabled) {
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+}
+
+.license-tier-button.disabled {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+}
+
+.beat-detail-loading,
+.beat-detail-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  gap: 1rem;
+}
+
+.back-button {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+}
+
+/* Responsive Design for Beat Store */
+@media (max-width: 1024px) {
+  .beat-detail-info {
+    grid-template-columns: 1fr;
+  }
+
+  .beat-detail-image {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .featured-carousel {
+    height: 500px;
+  }
+
+  .featured-carousel-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .featured-carousel {
+    height: 400px;
+  }
+
+  .featured-carousel-title {
+    font-size: 2rem;
+  }
+
+  .featured-carousel-meta {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .featured-carousel-nav {
+    width: 40px;
+    height: 40px;
+  }
+
+  .featured-carousel-nav-prev {
+    left: 1rem;
+  }
+
+  .featured-carousel-nav-next {
+    right: 1rem;
+  }
+
+  .beat-store-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .beat-detail-title {
+    font-size: 2rem;
+  }
+
+  .licenses-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .beat-detail-meta {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-carousel {
+    height: 300px;
+  }
+
+  .featured-carousel-title {
+    font-size: 1.5rem;
+  }
+
+  .beat-store-section-title {
+    font-size: 1.75rem;
+  }
+
+  .beat-detail-title {
+    font-size: 1.5rem;
+  }
+}
