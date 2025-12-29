@@ -5,7 +5,8 @@ import { Plus, Edit, Trash2, Eye, EyeOff } from 'lucide-react'
 import AdminLayout from '../../components/AdminLayout'
 import AdminProtected from '../../components/AdminProtected'
 import DataTable from '../../components/admin/DataTable'
-import { fetchAllBeats, toggleBeatActive, deleteBeat } from '../../utils/adminSupabase'
+import { fetchAllBeats } from '../../utils/adminSupabase'
+import { toggleBeatActive, deleteBeat } from '../../utils/beatAdmin'
 
 const Beats = () => {
   const [beats, setBeats] = useState([])
