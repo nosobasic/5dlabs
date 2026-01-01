@@ -1,4 +1,5 @@
-import { adminSupabase } from './adminSupabase'
+// Backend API URL - use environment variable or default to Render URL
+const API_URL = import.meta.env.VITE_API_URL || 'https://fivedlabs.onrender.com'
 
 /**
  * Create a new beat
@@ -12,18 +13,26 @@ export async function createBeat(beatData) {
     is_active: beatData.is_active !== undefined ? beatData.is_active : true
   }
 
-  const { data, error } = await adminSupabase
-    .from('beats')
-    .insert([beatDataWithDefaults])
-    .select()
-    .single()
+  try {
+    const response = await fetch(`${API_URL}/api/beats/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(beatDataWithDefaults),
+    })
 
-  if (error) {
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.detail || 'Failed to create beat')
+    }
+
+    const result = await response.json()
+    return result.data
+  } catch (error) {
     console.error('Error creating beat:', error)
     throw error
   }
-
-  return data
 }
 
 /**
@@ -33,22 +42,26 @@ export async function createBeat(beatData) {
  * @returns {Promise<Object>} Updated beat
  */
 export async function updateBeat(beatId, beatData) {
-  const { data, error } = await adminSupabase
-    .from('beats')
-    .update({
-      ...beatData,
-      updated_at: new Date().toISOString()
+  try {
+    const response = await fetch(`${API_URL}/api/beats/${beatId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(beatData),
     })
-    .eq('id', beatId)
-    .select()
-    .single()
 
-  if (error) {
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.detail || 'Failed to update beat')
+    }
+
+    const result = await response.json()
+    return result.data
+  } catch (error) {
     console.error('Error updating beat:', error)
     throw error
   }
-
-  return data
 }
 
 /**
@@ -56,12 +69,16 @@ export async function updateBeat(beatId, beatData) {
  * @param {string} beatId - Beat ID
  */
 export async function deleteBeat(beatId) {
-  const { error } = await adminSupabase
-    .from('beats')
-    .delete()
-    .eq('id', beatId)
+  try {
+    const response = await fetch(`${API_URL}/api/beats/${beatId}`, {
+      method: 'DELETE',
+    })
 
-  if (error) {
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.detail || 'Failed to delete beat')
+    }
+  } catch (error) {
     console.error('Error deleting beat:', error)
     throw error
   }
@@ -74,22 +91,22 @@ export async function deleteBeat(beatId) {
  * @returns {Promise<Object>} Updated beat
  */
 export async function toggleBeatActive(beatId, isActive) {
-  const { data, error } = await adminSupabase
-    .from('beats')
-    .update({
-      is_active: isActive,
-      updated_at: new Date().toISOString()
+  try {
+    const response = await fetch(`${API_URL}/api/beats/${beatId}/toggle-active?is_active=${isActive}`, {
+      method: 'PATCH',
     })
-    .eq('id', beatId)
-    .select()
-    .single()
 
-  if (error) {
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.detail || 'Failed to toggle beat status')
+    }
+
+    const result = await response.json()
+    return result.data
+  } catch (error) {
     console.error('Error toggling beat active status:', error)
     throw error
   }
-
-  return data
 }
 
 /**
@@ -98,17 +115,19 @@ export async function toggleBeatActive(beatId, isActive) {
  * @returns {Promise<Object>} Beat data
  */
 export async function fetchBeatById(beatId) {
-  const { data, error } = await adminSupabase
-    .from('beats')
-    .select('*')
-    .eq('id', beatId)
-    .single()
+  try {
+    const response = await fetch(`${API_URL}/api/beats/${beatId}`)
 
-  if (error) {
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.detail || 'Failed to fetch beat')
+    }
+
+    const result = await response.json()
+    return result.data
+  } catch (error) {
     console.error('Error fetching beat:', error)
     throw error
   }
-
-  return data
 }
 

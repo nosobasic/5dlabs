@@ -1,4 +1,4 @@
-import { adminSupabase } from './adminSupabase'
+import { supabase } from './supabaseClient'
 
 const AUDIO_BUCKET = 'beats'
 const PREVIEW_BUCKET = 'beats'
@@ -8,50 +8,30 @@ const PREVIEW_BUCKET = 'beats'
  * @param {string} bucketName - Name of the bucket
  */
 async function ensureBucketExists(bucketName) {
+  // Note: Bucket creation requires service role key, so this check is informational only
+  // Buckets should be created manually in Supabase dashboard or via backend API
   try {
-    // Check if bucket exists by listing all buckets
-    const { data: buckets, error: listError } = await adminSupabase.storage.listBuckets()
+    // Try to list files in the bucket to check if it exists
+    const { data: files, error: listError } = await supabase.storage
+      .from(bucketName)
+      .list('', { limit: 1 })
     
     // #region agent log
-    fetch('http://127.0.0.1:7243/ingest/61ed75b7-8598-4367-92fa-bd31396dda7f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'storage.js:ensureBucketExists',message:'Bucket existence check',data:{bucketName,bucketCount:buckets?.length||0,bucketNames:buckets?.map(b=>b.name)||[],bucketExists:buckets?.some(b=>b.name===bucketName),listError:listError?.message||null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A,B'})}).catch(()=>{});
+    fetch('http://127.0.0.1:7243/ingest/61ed75b7-8598-4367-92fa-bd31396dda7f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'storage.js:ensureBucketExists',message:'Bucket existence check',data:{bucketName,listError:listError?.message||null,bucketAccessible:!listError},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A,B'})}).catch(()=>{});
     // #endregion
 
     if (listError) {
-      console.error('Error listing buckets:', listError)
-      throw new Error(`Failed to check bucket existence: ${listError.message}`)
-    }
-
-    const bucketExists = buckets?.some(b => b.name === bucketName) || false
-
-    if (!bucketExists) {
-      // #region agent log
-      fetch('http://127.0.0.1:7243/ingest/61ed75b7-8598-4367-92fa-bd31396dda7f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'storage.js:ensureBucketExists',message:'Creating missing bucket',data:{bucketName},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-      // #endregion
-
-      // Create the bucket if it doesn't exist
-      const { data: newBucket, error: createError } = await adminSupabase.storage.createBucket(bucketName, {
-        public: true,
-        allowedMimeTypes: null, // Allow all file types
-        fileSizeLimit: 52428800 // 50MB in bytes
-      })
-
-      // #region agent log
-      fetch('http://127.0.0.1:7243/ingest/61ed75b7-8598-4367-92fa-bd31396dda7f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'storage.js:ensureBucketExists',message:'Bucket creation result',data:{bucketName,success:!createError,createError:createError?.message||null,createdBucket:newBucket?.name||null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
-      // #endregion
-
-      if (createError) {
-        // If bucket creation fails, provide helpful error message
-        if (createError.message?.includes('already exists')) {
-          // Bucket was created by another process, continue
-          return
-        }
+      // If we can't access the bucket, it might not exist or we don't have permissions
+      if (listError.message?.includes('not found') || listError.message?.includes('Bucket not found')) {
         throw new Error(
-          `Storage bucket "${bucketName}" does not exist and could not be created. ` +
-          `Please create it manually in your Supabase dashboard: ` +
-          `Go to Storage > New bucket > Name: "${bucketName}" > Public: Yes. ` +
-          `Error: ${createError.message}`
+          `Storage bucket "${bucketName}" not found. ` +
+          `Please create it in your Supabase dashboard: ` +
+          `Storage > New bucket > Name: "${bucketName}" > Public: Yes. ` +
+          `Then set up storage policies to allow uploads.`
         )
       }
+      // Other errors might be permission-related
+      console.warn('Bucket access check failed:', listError.message)
     }
   } catch (error) {
     // #region agent log
@@ -135,7 +115,7 @@ export async function uploadAudioFile(file, beatId) {
   }
   // #endregion
 
-  const { data, error } = await adminSupabase.storage
+  const { data, error } = await supabase.storage
     .from(AUDIO_BUCKET)
     .upload(filePath, file, {
       cacheControl: '3600',
@@ -163,7 +143,7 @@ export async function uploadAudioFile(file, beatId) {
   }
 
   // Get public URL
-  const { data: urlData } = adminSupabase.storage
+  const { data: urlData } = supabase.storage
     .from(AUDIO_BUCKET)
     .getPublicUrl(data.path)
 
@@ -200,7 +180,7 @@ export async function uploadPreviewImage(file, beatId) {
   // Ensure bucket exists before uploading
   await ensureBucketExists(PREVIEW_BUCKET)
 
-  const { data, error } = await adminSupabase.storage
+  const { data, error } = await supabase.storage
     .from(PREVIEW_BUCKET)
     .upload(filePath, file, {
       cacheControl: '3600',
@@ -224,7 +204,7 @@ export async function uploadPreviewImage(file, beatId) {
   }
 
   // Get public URL
-  const { data: urlData } = adminSupabase.storage
+  const { data: urlData } = supabase.storage
     .from(PREVIEW_BUCKET)
     .getPublicUrl(data.path)
 
@@ -237,7 +217,7 @@ export async function uploadPreviewImage(file, beatId) {
  * @param {string} bucket - Bucket name
  */
 export async function deleteFile(filePath, bucket = AUDIO_BUCKET) {
-  const { error } = await adminSupabase.storage
+  const { error } = await supabase.storage
     .from(bucket)
     .remove([filePath])
 

@@ -3,12 +3,19 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseServiceRoleKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY
 
+// ⚠️ WARNING: This file uses the service role key which should NOT be exposed in the browser
+// The service role key should be removed from frontend environment variables
+// Admin write operations (create/update/delete beats) now go through the backend API
+// This client is only used for read operations in admin pages and should be migrated to backend API
+
 if (!supabaseUrl || !supabaseServiceRoleKey) {
   console.warn('Admin Supabase client: Missing environment variables. Admin operations may not work correctly.')
+  console.warn('⚠️ SECURITY: Remove VITE_SUPABASE_SERVICE_ROLE_KEY from frontend. Use backend API instead.')
 }
 
 // Initialize Supabase client with service role key for admin operations
 // This bypasses RLS and should only be used in admin context
+// TODO: Migrate all admin operations to backend API to remove service role key from frontend
 export const adminSupabase = createClient(supabaseUrl, supabaseServiceRoleKey)
 
 // #region agent log
