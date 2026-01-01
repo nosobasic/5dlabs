@@ -102,17 +102,7 @@ export async function uploadAudioFile(file, beatId) {
   await ensureBucketExists(AUDIO_BUCKET)
 
   // #region agent log
-  fetch('http://127.0.0.1:7243/ingest/61ed75b7-8598-4367-92fa-bd31396dda7f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'storage.js:48',message:'Before storage upload',data:{filePath,audioBucket:AUDIO_BUCKET,supabaseUrl:adminSupabase.supabaseUrl?.substring(0,30)+'...',hasServiceKey:!!adminSupabase.supabaseKey},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C,E'})}).catch(()=>{});
-  // #endregion
-
-  // Check if bucket exists by attempting to list it first
-  // #region agent log
-  try {
-    const { data: buckets, error: listError } = await adminSupabase.storage.listBuckets();
-    fetch('http://127.0.0.1:7243/ingest/61ed75b7-8598-4367-92fa-bd31396dda7f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'storage.js:52',message:'Bucket list check',data:{bucketCount:buckets?.length||0,bucketNames:buckets?.map(b=>b.name)||[],targetBucket:AUDIO_BUCKET,bucketExists:buckets?.some(b=>b.name===AUDIO_BUCKET),listError:listError?.message||null},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A,B'})}).catch(()=>{});
-  } catch (err) {
-    fetch('http://127.0.0.1:7243/ingest/61ed75b7-8598-4367-92fa-bd31396dda7f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'storage.js:54',message:'Bucket list error',data:{error:err.message},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C,E'})}).catch(()=>{});
-  }
+  fetch('http://127.0.0.1:7243/ingest/61ed75b7-8598-4367-92fa-bd31396dda7f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'storage.js:48',message:'Before storage upload',data:{filePath,audioBucket:AUDIO_BUCKET},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C,E'})}).catch(()=>{});
   // #endregion
 
   const { data, error } = await supabase.storage

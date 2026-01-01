@@ -31,7 +31,18 @@ class BeatUpdate(BaseModel):
     is_active: Optional[bool] = None
 
 
-@router.post("/")
+@router.get("/", name="list_beats")
+async def list_beats():
+    """Get all beats (including inactive) - Admin only."""
+    try:
+        result = supabase.table("beats").select("*").order("created_at", desc=True).execute()
+        
+        return {"success": True, "data": result.data or []}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error fetching beats: {str(e)}")
+
+
+@router.post("/", name="create_beat")
 async def create_beat(beat: BeatCreate):
     """Create a new beat."""
     try:
@@ -44,28 +55,6 @@ async def create_beat(beat: BeatCreate):
         return {"success": True, "data": result.data[0]}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error creating beat: {str(e)}")
-
-
-@router.put("/{beat_id}")
-async def update_beat(beat_id: str, beat: BeatUpdate):
-    """Update an existing beat."""
-    try:
-        # Only include fields that are provided
-        update_data = {k: v for k, v in beat.dict().items() if v is not None}
-        
-        if not update_data:
-            raise HTTPException(status_code=400, detail="No fields to update")
-        
-        result = supabase.table("beats").update(update_data).eq("id", beat_id).execute()
-        
-        if not result.data:
-            raise HTTPException(status_code=404, detail="Beat not found")
-        
-        return {"success": True, "data": result.data[0]}
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error updating beat: {str(e)}")
 
 
 @router.get("/{beat_id}")

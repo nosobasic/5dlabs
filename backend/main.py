@@ -4,6 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.stripe_webhook import router as stripe_router
 from backend.beats import router as beats_router
+from backend.orders import router as orders_router
+from backend.licenses import router as licenses_router
+from backend.webhooks import router as webhooks_router
 
 # Initialize FastAPI app
 app = FastAPI(title="Beat Store API", version="1.0.0")
@@ -20,6 +23,9 @@ app.add_middleware(
 # Register routers
 app.include_router(stripe_router)
 app.include_router(beats_router)
+app.include_router(orders_router)
+app.include_router(licenses_router)
+app.include_router(webhooks_router)
 
 @app.get("/")
 async def root():
