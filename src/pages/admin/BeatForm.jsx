@@ -63,26 +63,65 @@ const BeatForm = () => {
     setSaving(true)
 
     try {
+      // Validate required fields
+      if (!formData.title.trim()) {
+        setError('Title is required')
+        setSaving(false)
+        return
+      }
+
+      if (!formData.price_cents || parseInt(formData.price_cents) <= 0) {
+        setError('Price must be greater than 0')
+        setSaving(false)
+        return
+      }
+
+      // For new beats, audio file is required
+      if (!isEdit && !audioFile) {
+        setError('Audio file is required for new beats')
+        setSaving(false)
+        return
+      }
+
       let audioUrl = formData.audio_url
       let previewUrl = formData.preview_url
 
       // Upload audio file if new file selected
       if (audioFile) {
-        const beatId = id || crypto.randomUUID()
-        audioUrl = await uploadAudioFile(audioFile, beatId)
+        try {
+          const beatId = id || crypto.randomUUID()
+          audioUrl = await uploadAudioFile(audioFile, beatId)
+        } catch (uploadError) {
+          setError(uploadError.message || 'Failed to upload audio file')
+          setSaving(false)
+          return
+        }
+      }
+
+      // Validate that we have an audio URL
+      if (!audioUrl) {
+        setError('Audio file is required')
+        setSaving(false)
+        return
       }
 
       // Upload preview image if new file selected
       if (previewFile) {
-        const beatId = id || crypto.randomUUID()
-        previewUrl = await uploadPreviewImage(previewFile, beatId)
+        try {
+          const beatId = id || crypto.randomUUID()
+          previewUrl = await uploadPreviewImage(previewFile, beatId)
+        } catch (uploadError) {
+          setError(uploadError.message || 'Failed to upload preview image')
+          setSaving(false)
+          return
+        }
       }
 
       const beatData = {
-        title: formData.title,
+        title: formData.title.trim(),
         bpm: formData.bpm ? parseInt(formData.bpm) : null,
-        key: formData.key || null,
-        genre: formData.genre || null,
+        key: formData.key ? formData.key.trim() : null,
+        genre: formData.genre ? formData.genre.trim() : null,
         price_cents: parseInt(formData.price_cents),
         license_type: formData.license_type,
         audio_url: audioUrl,
@@ -98,7 +137,14 @@ const BeatForm = () => {
       navigate('/admin/beats')
     } catch (error) {
       console.error('Error saving beat:', error)
-      setError(error.message || 'Failed to save beat')
+      // Provide more specific error messages
+      if (error.message) {
+        setError(error.message)
+      } else if (error.code) {
+        setError(`Database error: ${error.code}. Please check your connection and try again.`)
+      } else {
+        setError('Failed to save beat. Please try again.')
+      }
     } finally {
       setSaving(false)
     }

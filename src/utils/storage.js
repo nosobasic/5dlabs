@@ -10,10 +10,30 @@ const PREVIEW_BUCKET = 'beats'
  * @returns {Promise<string>} Public URL of uploaded file
  */
 export async function uploadAudioFile(file, beatId) {
-  // Validate file type
-  const allowedTypes = ['audio/mpeg', 'audio/wav', 'audio/mp3', 'audio/x-m4a']
-  if (!allowedTypes.includes(file.type)) {
-    throw new Error('Invalid file type. Please upload MP3, WAV, or M4A files.')
+  // Validate file type - support common audio formats
+  const allowedTypes = [
+    'audio/mpeg', 
+    'audio/mp3', 
+    'audio/wav', 
+    'audio/wave',
+    'audio/x-wav',
+    'audio/x-m4a',
+    'audio/mp4',
+    'audio/aac',
+    'audio/ogg',
+    'audio/webm',
+    'audio/flac'
+  ]
+  
+  // Also check file extension as fallback (some browsers don't set MIME type correctly)
+  const fileExt = file.name.split('.').pop()?.toLowerCase()
+  const allowedExtensions = ['mp3', 'wav', 'm4a', 'aac', 'ogg', 'webm', 'flac']
+  
+  const isValidType = allowedTypes.includes(file.type) || 
+                      (fileExt && allowedExtensions.includes(fileExt))
+  
+  if (!isValidType) {
+    throw new Error('Invalid file type. Please upload MP3, WAV, M4A, AAC, OGG, WebM, or FLAC files.')
   }
 
   // Validate file size (max 50MB)
@@ -22,8 +42,9 @@ export async function uploadAudioFile(file, beatId) {
     throw new Error('File size exceeds 50MB limit.')
   }
 
-  const fileExt = file.name.split('.').pop()
-  const fileName = `${beatId}/${Date.now()}.${fileExt}`
+  // Use the fileExt we already extracted, or get it again if needed
+  const finalFileExt = fileExt || file.name.split('.').pop()
+  const fileName = `${beatId}/${Date.now()}.${finalFileExt}`
   const filePath = `audio/${fileName}`
 
   const { data, error } = await adminSupabase.storage

@@ -51,9 +51,24 @@ const FileUpload = ({
     }
 
     // Check file type if accept is specified
-    if (accept && !accept.split(',').some(type => file.type.includes(type.split('/')[1]))) {
-      setError('Invalid file type')
-      return
+    if (accept) {
+      const acceptedTypes = accept.split(',').map(type => type.trim())
+      const isValidType = acceptedTypes.some(acceptedType => {
+        // Handle wildcard patterns like "audio/*" or "image/*"
+        if (acceptedType.endsWith('/*')) {
+          const baseType = acceptedType.split('/')[0]
+          return file.type.startsWith(baseType + '/')
+        }
+        // Handle specific MIME types like "audio/mpeg" or "image/jpeg"
+        return file.type === acceptedType
+      })
+
+      if (!isValidType) {
+        // Provide more helpful error message
+        const allowedTypes = acceptedTypes.map(t => t.replace('/*', ' files')).join(', ')
+        setError(`Invalid file type. Please upload ${allowedTypes}.`)
+        return
+      }
     }
 
     onFileSelect(file)

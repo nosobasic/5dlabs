@@ -6,9 +6,15 @@ import { adminSupabase } from './adminSupabase'
  * @returns {Promise<Object>} Created beat
  */
 export async function createBeat(beatData) {
+  // Ensure is_active is set to true by default for new beats
+  const beatDataWithDefaults = {
+    ...beatData,
+    is_active: beatData.is_active !== undefined ? beatData.is_active : true
+  }
+
   const { data, error } = await adminSupabase
     .from('beats')
-    .insert([beatData])
+    .insert([beatDataWithDefaults])
     .select()
     .single()
 
