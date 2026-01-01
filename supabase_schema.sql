@@ -188,3 +188,59 @@ CREATE INDEX IF NOT EXISTS idx_downloads_beat_id ON downloads(beat_id);
 CREATE INDEX IF NOT EXISTS idx_downloads_order_id ON downloads(order_id);
 CREATE INDEX IF NOT EXISTS idx_webhook_events_processed ON webhook_events(processed);
 CREATE INDEX IF NOT EXISTS idx_webhook_events_created_at ON webhook_events(created_at);
+
+-- ============================================================================
+-- STORAGE BUCKET POLICIES
+-- ============================================================================
+-- These policies control access to the 'beats' storage bucket
+-- Run these after creating the bucket in Supabase Dashboard: Storage > New bucket > Name: "beats" > Public: Yes
+
+-- Drop existing storage policies if they exist (idempotent - safe to run multiple times)
+DROP POLICY IF EXISTS "Allow public file uploads" ON storage.objects;
+DROP POLICY IF EXISTS "Allow public file reads" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated file uploads" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated file updates" ON storage.objects;
+DROP POLICY IF EXISTS "Allow authenticated file deletes" ON storage.objects;
+
+-- Policy 1: Allow INSERT (uploads) for anonymous and authenticated users
+-- This allows uploads from the frontend using the anon key
+CREATE POLICY "Allow public file uploads"
+ON storage.objects
+FOR INSERT
+TO anon, authenticated
+WITH CHECK (
+    bucket_id = 'beats'::text
+);
+
+-- Policy 2: Allow SELECT (reads) for everyone
+-- This allows anyone to read/download files from the bucket
+CREATE POLICY "Allow public file reads"
+ON storage.objects
+FOR SELECT
+TO public
+USING (
+    bucket_id = 'beats'::text
+);
+
+-- Policy 3: Allow UPDATE for authenticated users (optional)
+-- This allows users to update/replace their uploaded files
+CREATE POLICY "Allow authenticated file updates"
+ON storage.objects
+FOR UPDATE
+TO authenticated
+USING (
+    bucket_id = 'beats'::text
+)
+WITH CHECK (
+    bucket_id = 'beats'::text
+);
+
+-- Policy 4: Allow DELETE for authenticated users (optional)
+-- This allows users to delete their uploaded files
+CREATE POLICY "Allow authenticated file deletes"
+ON storage.objects
+FOR DELETE
+TO authenticated
+USING (
+    bucket_id = 'beats'::text
+);

@@ -5,7 +5,18 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY')
+  const missing = []
+  if (!supabaseUrl) missing.push('VITE_SUPABASE_URL')
+  if (!supabaseAnonKey) missing.push('VITE_SUPABASE_ANON_KEY')
+  
+  throw new Error(
+    `Missing Supabase environment variables: ${missing.join(', ')}\n\n` +
+    `Please set these in Vercel project settings:\n` +
+    `- VITE_SUPABASE_URL (your Supabase project URL)\n` +
+    `- VITE_SUPABASE_ANON_KEY (your Supabase anon/public key)\n\n` +
+    `Note: Vite requires the VITE_ prefix for client-side environment variables.\n` +
+    `Make sure to add them for Production, Preview, and Development environments.`
+  )
 }
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
