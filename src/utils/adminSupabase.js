@@ -11,6 +11,12 @@ if (!supabaseUrl || !supabaseServiceRoleKey) {
 // This bypasses RLS and should only be used in admin context
 export const adminSupabase = createClient(supabaseUrl, supabaseServiceRoleKey)
 
+// #region agent log
+if (typeof window !== 'undefined') {
+  fetch('http://127.0.0.1:7243/ingest/61ed75b7-8598-4367-92fa-bd31396dda7f',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'adminSupabase.js:12',message:'adminSupabase client initialized',data:{hasUrl:!!supabaseUrl,urlPrefix:supabaseUrl?.substring(0,30)+'...',hasServiceKey:!!supabaseServiceRoleKey,serviceKeyLength:supabaseServiceRoleKey?.length||0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C,E'})}).catch(()=>{});
+}
+// #endregion
+
 /**
  * Fetch all beats (including inactive) - Admin only
  */
