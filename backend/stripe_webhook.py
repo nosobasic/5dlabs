@@ -93,14 +93,18 @@ async def stripe_webhook(
         customer_name = customer_details.get("name") or customer_details.get("email") or session.get("customer_email") or "Unknown Customer"
         customer_email = customer_details.get("email") or session.get("customer_email") or "unknown@example.com"
         
-        # Fetch beat information
+        # Fetch beat information including producer fields
         beat_title = "Unknown Beat"
+        beat_producer_name = None
+        beat_licensor_legal_name = None
         try:
-            beat_result = supabase.table("beats").select("title").eq("id", str(beat_id)).single().execute()
+            beat_result = supabase.table("beats").select("title, producer_name, licensor_legal_name").eq("id", str(beat_id)).single().execute()
             if beat_result.data:
                 beat_title = beat_result.data.get("title", "Unknown Beat")
+                beat_producer_name = beat_result.data.get("producer_name")
+                beat_licensor_legal_name = beat_result.data.get("licensor_legal_name")
         except Exception as e:
-            logger.warning(f"Failed to fetch beat title for beat_id {beat_id}: {e}")
+            logger.warning(f"Failed to fetch beat information for beat_id {beat_id}: {e}")
         
         # Database operations
         # 1. Insert order
@@ -119,6 +123,11 @@ async def stripe_webhook(
         order_id = order_result.data[0]["id"]
         
         # Generate license PDF (with error handling - don't crash webhook)
+        # Use beat-specific producer info if available, otherwise fallback to env vars
+        # If neither is available, use placeholder values (shouldn't happen in production)
+        producer_name = beat_producer_name or PRODUCER_NAME or "Producer Name"
+        licensor_legal_name = beat_licensor_legal_name or LICENSOR_LEGAL_NAME or "Licensor Legal Name"
+        
         license_url = None
         try:
             license_url = generate_license_pdf(
@@ -127,8 +136,8 @@ async def stripe_webhook(
                 customer_name=customer_name,
                 customer_email=customer_email,
                 beat_title=beat_title,
-                producer_name=PRODUCER_NAME,
-                licensor_legal_name=LICENSOR_LEGAL_NAME,
+                producer_name=producer_name,
+                licensor_legal_name=licensor_legal_name,
                 purchase_date=datetime.now(),
             )
         except Exception as e:

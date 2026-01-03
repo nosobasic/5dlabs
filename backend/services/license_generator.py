@@ -204,11 +204,11 @@ def generate_license_pdf(
         Public URL of the generated PDF, or None if generation failed
     """
     try:
-        # Use defaults if not provided
+        # Use defaults if not provided (fallback to env vars, then to placeholder)
         if producer_name is None:
-            producer_name = PRODUCER_NAME
+            producer_name = PRODUCER_NAME or "Producer Name"
         if licensor_legal_name is None:
-            licensor_legal_name = LICENSOR_LEGAL_NAME
+            licensor_legal_name = LICENSOR_LEGAL_NAME or "Licensor Legal Name"
         if purchase_date is None:
             purchase_date = datetime.now()
         

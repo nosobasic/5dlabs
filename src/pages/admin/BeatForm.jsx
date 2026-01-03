@@ -23,7 +23,9 @@ const BeatForm = () => {
     price_cents: '',
     license_type: 'basic',
     audio_url: '',
-    preview_url: ''
+    preview_url: '',
+    producer_name: '',
+    licensor_legal_name: ''
   })
   const [audioFile, setAudioFile] = useState(null)
   const [previewFile, setPreviewFile] = useState(null)
@@ -47,7 +49,9 @@ const BeatForm = () => {
         price_cents: beat.price_cents || '',
         license_type: beat.license_type || 'basic',
         audio_url: beat.audio_url || '',
-        preview_url: beat.preview_url || ''
+        preview_url: beat.preview_url || '',
+        producer_name: beat.producer_name || '',
+        licensor_legal_name: beat.licensor_legal_name || ''
       })
     } catch (error) {
       console.error('Error loading beat:', error)
@@ -125,7 +129,9 @@ const BeatForm = () => {
         price_cents: parseInt(formData.price_cents),
         license_type: formData.license_type,
         audio_url: audioUrl,
-        preview_url: previewUrl || null
+        preview_url: previewUrl || null,
+        producer_name: formData.producer_name ? formData.producer_name.trim() : null,
+        licensor_legal_name: formData.licensor_legal_name ? formData.licensor_legal_name.trim() : null
       }
 
       if (isEdit) {
@@ -263,6 +269,29 @@ const BeatForm = () => {
                   <option value="unlimited">Unlimited</option>
                   <option value="exclusive">Exclusive</option>
                 </select>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Producer Name (Optional)</label>
+                <input
+                  type="text"
+                  value={formData.producer_name}
+                  onChange={(e) => setFormData({ ...formData, producer_name: e.target.value })}
+                  placeholder="Leave empty to use default from environment"
+                />
+                <p className="form-hint">If not specified, will use PRODUCER_NAME environment variable</p>
+              </div>
+              <div className="form-group">
+                <label>Licensor Legal Name (Optional)</label>
+                <input
+                  type="text"
+                  value={formData.licensor_legal_name}
+                  onChange={(e) => setFormData({ ...formData, licensor_legal_name: e.target.value })}
+                  placeholder="Leave empty to use default from environment"
+                />
+                <p className="form-hint">If not specified, will use LICENSOR_LEGAL_NAME environment variable</p>
               </div>
             </div>
 

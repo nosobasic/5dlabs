@@ -17,6 +17,8 @@ class BeatCreate(BaseModel):
     audio_url: str
     preview_url: Optional[str] = None
     is_active: bool = True
+    producer_name: Optional[str] = None
+    licensor_legal_name: Optional[str] = None
 
 
 class BeatUpdate(BaseModel):
@@ -29,6 +31,8 @@ class BeatUpdate(BaseModel):
     audio_url: Optional[str] = None
     preview_url: Optional[str] = None
     is_active: Optional[bool] = None
+    producer_name: Optional[str] = None
+    licensor_legal_name: Optional[str] = None
 
 
 @router.get("/", name="list_beats")
