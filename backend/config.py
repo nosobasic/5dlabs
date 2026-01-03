@@ -24,3 +24,7 @@ STRIPE_WEBHOOK_SECRET: str = get_env_var("STRIPE_WEBHOOK_SECRET")
 SUPABASE_URL: str = get_env_var("SUPABASE_URL")
 SUPABASE_SERVICE_ROLE_KEY: str = get_env_var("SUPABASE_SERVICE_ROLE_KEY")
 
+# License configuration
+PRODUCER_NAME: str = get_env_var("PRODUCER_NAME")
+LICENSOR_LEGAL_NAME: str = get_env_var("LICENSOR_LEGAL_NAME")
+

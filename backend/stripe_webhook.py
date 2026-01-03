@@ -1,13 +1,15 @@
 """Stripe webhook handler for checkout.session.completed events."""
 import logging
 import uuid
+from datetime import datetime
 
 import stripe
 from fastapi import APIRouter, Request, Header
 from fastapi.responses import Response
 
-from backend.config import STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET
+from backend.config import STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, PRODUCER_NAME, LICENSOR_LEGAL_NAME
 from backend.database import supabase
+from backend.services.license_generator import generate_license_pdf
 
 # Initialize Stripe
 stripe.api_key = STRIPE_SECRET_KEY
@@ -86,8 +88,19 @@ async def stripe_webhook(
         total_cents = session.get("amount_total", 0)
         price_cents = total_cents  # For single-item checkout
         
-        # Generate license URL (placeholder - adjust based on your license generation logic)
-        license_url = f"https://example.com/licenses/{uuid.uuid4()}"
+        # Extract customer information from Stripe session
+        customer_details = session.get("customer_details", {})
+        customer_name = customer_details.get("name") or customer_details.get("email") or session.get("customer_email") or "Unknown Customer"
+        customer_email = customer_details.get("email") or session.get("customer_email") or "unknown@example.com"
+        
+        # Fetch beat information
+        beat_title = "Unknown Beat"
+        try:
+            beat_result = supabase.table("beats").select("title").eq("id", str(beat_id)).single().execute()
+            if beat_result.data:
+                beat_title = beat_result.data.get("title", "Unknown Beat")
+        except Exception as e:
+            logger.warning(f"Failed to fetch beat title for beat_id {beat_id}: {e}")
         
         # Database operations
         # 1. Insert order
@@ -104,6 +117,27 @@ async def stripe_webhook(
             return Response(status_code=200)
         
         order_id = order_result.data[0]["id"]
+        
+        # Generate license PDF (with error handling - don't crash webhook)
+        license_url = None
+        try:
+            license_url = generate_license_pdf(
+                license_type=license_type,
+                order_id=order_id,
+                customer_name=customer_name,
+                customer_email=customer_email,
+                beat_title=beat_title,
+                producer_name=PRODUCER_NAME,
+                licensor_legal_name=LICENSOR_LEGAL_NAME,
+                purchase_date=datetime.now(),
+            )
+        except Exception as e:
+            logger.error(f"Error generating license PDF: {e}", exc_info=True)
+        
+        # Use placeholder URL if generation failed
+        if not license_url:
+            license_url = f"https://example.com/licenses/{uuid.uuid4()}"
+            logger.warning("License PDF generation failed, using placeholder URL")
         
         # 2. Insert order_item
         order_item_data = {
@@ -134,8 +168,8 @@ async def stripe_webhook(
             logger.error("Failed to insert license")
             return Response(status_code=200)
         
-        # 4. If license_type is 'exclusive', deactivate the beat
-        if license_type.lower() == "exclusive":
+        # 4. If license_type is 'premium_trackout_exclusive', deactivate the beat
+        if license_type == "premium_trackout_exclusive":
             try:
                 supabase.table("beats").update({"is_active": False}).eq("id", str(beat_id)).execute()
                 logger.info(f"Deactivated beat {beat_id} due to exclusive license")
