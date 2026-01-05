@@ -14,3 +14,6 @@ ADD COLUMN IF NOT EXISTS licensor_legal_name TEXT;
 CREATE INDEX IF NOT EXISTS idx_beats_producer_name ON beats(producer_name);
 CREATE INDEX IF NOT EXISTS idx_beats_licensor_legal_name ON beats(licensor_legal_name);
 
+
+
+

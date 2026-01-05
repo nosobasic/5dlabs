@@ -1,16 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Menu, X, Instagram, Youtube, Twitch, Settings } from 'lucide-react'
+import { Menu, X, Instagram, Youtube, Twitch, Settings, ChevronDown } from 'lucide-react'
 import { useUser, SignInButton, SignOutButton, UserButton } from '@clerk/clerk-react'
 import { useIsAdmin } from '../utils/adminAuth'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [isAboutOpen, setIsAboutOpen] = useState(false)
+  const [isMobileAboutOpen, setIsMobileAboutOpen] = useState(false)
   const location = useLocation()
   const { isSignedIn } = useUser()
   const isAdmin = useIsAdmin()
+  const aboutDropdownRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,15 +23,32 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const navItems = [
-    { name: 'Home', path: '/' },
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target)) {
+        setIsAboutOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const aboutItems = [
     { name: 'Studio', path: '/studio' },
     { name: 'Services', path: '/services' },
-    { name: 'Portfolio', path: '/portfolio' },
+    { name: 'Portfolio', path: '/portfolio' }
+  ]
+
+  const navItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Store', path: '/store' },
     { name: 'Contact', path: '/contact' },
     { name: 'Free Beats', path: '/beat-pack', highlight: true },
     ...(isAdmin ? [{ name: 'Admin', path: '/admin', admin: true }] : [])
   ]
+
+  const isAboutActive = aboutItems.some(item => location.pathname === item.path)
 
   return (
     <motion.nav
@@ -72,6 +92,47 @@ const Navbar = () => {
                 )}
               </Link>
             ))}
+            
+            {/* About Dropdown */}
+            <div className="nav-dropdown" ref={aboutDropdownRef}>
+              <button
+                className={`nav-link nav-dropdown-toggle ${isAboutActive ? 'nav-link-active' : ''}`}
+                onClick={() => setIsAboutOpen(!isAboutOpen)}
+                onMouseEnter={() => setIsAboutOpen(true)}
+              >
+                About
+                <ChevronDown 
+                  size={16} 
+                  className={`dropdown-chevron ${isAboutOpen ? 'dropdown-chevron-open' : ''}`}
+                />
+                {isAboutActive && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="nav-link-indicator"
+                  />
+                )}
+              </button>
+              {isAboutOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="nav-dropdown-menu"
+                  onMouseLeave={() => setIsAboutOpen(false)}
+                >
+                  {aboutItems.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.path}
+                      className={`nav-dropdown-item ${location.pathname === item.path ? 'nav-dropdown-item-active' : ''}`}
+                      onClick={() => setIsAboutOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
+            </div>
           </div>
 
           {/* Social Links */}
@@ -154,6 +215,42 @@ const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
+              
+              {/* Mobile About Dropdown */}
+              <div className="mobile-nav-dropdown">
+                <button
+                  className={`mobile-nav-link mobile-nav-dropdown-toggle ${isAboutActive ? 'mobile-nav-link-active' : ''}`}
+                  onClick={() => setIsMobileAboutOpen(!isMobileAboutOpen)}
+                >
+                  About
+                  <ChevronDown 
+                    size={16} 
+                    className={`mobile-dropdown-chevron ${isMobileAboutOpen ? 'mobile-dropdown-chevron-open' : ''}`}
+                  />
+                </button>
+                {isMobileAboutOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="mobile-nav-dropdown-menu"
+                  >
+                    {aboutItems.map((item) => (
+                      <Link
+                        key={item.name}
+                        to={item.path}
+                        onClick={() => {
+                          setIsMobileAboutOpen(false)
+                          setIsOpen(false)
+                        }}
+                        className={`mobile-nav-dropdown-item ${location.pathname === item.path ? 'mobile-nav-dropdown-item-active' : ''}`}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </div>
               <div className="mobile-social-links">
                 <a href="https://instagram.com" className="mobile-social-link instagram">
                   <Instagram size={20} />

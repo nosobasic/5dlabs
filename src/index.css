@@ -2094,6 +2094,114 @@ body {
   background: linear-gradient(135deg, #c084fc, #ec4899);
 }
 
+/* Dropdown Styles */
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.dropdown-chevron {
+  transition: transform 0.2s ease;
+}
+
+.dropdown-chevron-open {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0;
+  min-width: 150px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.nav-dropdown-item {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.nav-dropdown-item:hover {
+  color: white;
+  background: rgba(139, 92, 246, 0.1);
+}
+
+.nav-dropdown-item-active {
+  color: #c084fc;
+  background: rgba(139, 92, 246, 0.1);
+}
+
+/* Mobile Dropdown Styles */
+.mobile-nav-dropdown {
+  width: 100%;
+}
+
+.mobile-nav-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.mobile-dropdown-chevron {
+  transition: transform 0.2s ease;
+}
+
+.mobile-dropdown-chevron-open {
+  transform: rotate(180deg);
+}
+
+.mobile-nav-dropdown-menu {
+  overflow: hidden;
+  padding-left: 1rem;
+}
+
+.mobile-nav-dropdown-item {
+  display: block;
+  padding: 0.75rem 1rem;
+  padding-left: 2rem;
+  color: #d1d5db;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  margin: 0.25rem 0;
+}
+
+.mobile-nav-dropdown-item:hover {
+  color: white;
+  background: rgba(107, 114, 128, 0.5);
+}
+
+.mobile-nav-dropdown-item-active {
+  color: #c084fc;
+  background: rgba(139, 92, 246, 0.1);
+}
+
 .navbar-social {
   display: flex;
   align-items: center;
